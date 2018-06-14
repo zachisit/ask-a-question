@@ -1,0 +1,10 @@
+{
+  "name": "zachisit/askaquestion",
+  "type": "wordpress-plugin",
+  "require": {},
+  "autoload":{
+    "psr-4": {
+      "WPAskAQuestion\\" : "./"
+    }
+  }
+}
