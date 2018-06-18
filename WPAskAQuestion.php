@@ -3,6 +3,7 @@ namespace WPAskAQuestion;
 
 use WPAskAQuestion\DashboardWidgets\DashboardWidgets;
 use WPAskAQuestion\Shortcodes\Shortcode;
+use WPAskAQuestion\Utility;
 
 class WPAskAQuestion
 {
@@ -36,8 +37,11 @@ class WPAskAQuestion
     public function addActions()
     {
         DashboardWidgets::registerActions();
-        //enqueu scripts hook
-        //ajax posting hook
+        add_action('wp_enqueue_scripts', [__CLASS__, 'registerFrontendScripts']);
+
+        //frontend ask-a-question form submission posting
+        add_action( 'wp_ajax_a_p_n_ask_a_question_form', [__CLASS__, 'a_a_q_form_submit'] );
+        add_action( 'wp_ajax_nopriv_a_p_n_ask_a_question_form', [__CLASS__, 'a_a_q_form_submit'] );
     }
     public function registerFilters()
     {
@@ -62,6 +66,21 @@ class WPAskAQuestion
     }
     public static function registerFrontendScripts()
     {
-        //wp_enqueue_script
+        wp_enqueue_script('jquery');
+
+
+        wp_enqueue_script( 'ask_a_question_popup', plugins_url( '/js/ask_a_question_popup_submit.js', __FILE__ ) );
+    }
+
+    public static function a_a_q_form_submit()
+    {
+        $data = [
+            'a_a_q_email' => $_POST['a_a_q_email'],
+            'a_a_q_question' => $_POST['a_a_q_question'],
+            'user_ip' => Utility::getUserIp(),
+            'submission_time' => Utility::getCurrentTime()
+        ];
+
+        Database::insertAskAQuestionSubmission($data);
     }
 }

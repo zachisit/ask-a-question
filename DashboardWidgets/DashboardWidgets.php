@@ -1,6 +1,7 @@
 <?php
 namespace WPAskAQuestion\DashboardWidgets;
 
+use WPAskAQuestion\Database;
 use WPAskAQuestion\Utility;
 use WPAskAQuestion\WPAskAQuestion;
 
@@ -64,7 +65,8 @@ class DashboardWidgets
     public static function dashboardWidgetContent()
     {
         $string = Utility::populateTemplateFile('DashboardWidgets/dashboard_widget',[
-
+            'submissions' => Database::return_submission_data(),
+            'total_count' => Database::return_submission_total_count()
         ]);
 
         echo $string;

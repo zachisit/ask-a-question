@@ -2,7 +2,7 @@
 /**
  * Ask-A-Question Form Template
  *
- * @package asset-protection-news
+ * @package ask-a-question-plugin
  */
 ?>
 <form method="post" action="" id="a_p_n_ask_a_question_form">
